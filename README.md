@@ -1,4 +1,6 @@
 # Ambient noise applet for Plasma 5
+![screenshot](https://user-images.githubusercontent.com/8300317/27251595-acf7e666-534a-11e7-95ba-dc1f70f4e18b.png)
+
 This applet for the Plasma desktop allows to reproduce ambient noise.
 Multiple noise components can be combined, controlling their individual volume.
 The applet reads noise files and their icons from a given, customisable folder.
@@ -13,7 +15,7 @@ kpackagetool5 -t Plasma/Applet --install plasmoid
 ```
 or globally with
 ```
-cmake ../ -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix`
+cmake . -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix`
 make
 sudo make install
 ```
