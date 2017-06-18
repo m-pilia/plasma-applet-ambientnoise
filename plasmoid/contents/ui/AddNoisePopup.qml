@@ -19,72 +19,71 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
+import QtQuick.Window 2.2
 import Qt.labs.folderlistmodel 2.1
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
 
-Popup {
+Window {
     id: popup
-    modal: true
-    focus: true
-    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    title: i18n("Add a noise component")
 
-    ColumnLayout {
+    function open() {
+        show()
+    }
+
+    ScrollView {
+        id: scrollableArea
         anchors.fill: parent
+        clip: true
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-        ScrollView {
-            id: scrollableArea
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
+        ListView {
+            id: fileList
+            width: .95 * scrollableArea.width
+            height: .95 * scrollableArea.height
 
-            ListView {
-                id: fileList
-                width: scrollableArea.width
-                height: scrollableArea.height
+            model: folderModel
+            delegate: fileDelegate
 
-                model: folderModel
-                delegate: fileDelegate
+            FolderListModel {
+                id: folderModel
+                folder: Js.dataDirectory()
+                nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
+                showDirs: false
+            }
 
-                FolderListModel {
-                    id: folderModel
-                    folder: Js.dataDirectory()
-                    nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
-                    showDirs: false
-                }
+            Component {
+                id: fileDelegate
+                PlasmaComponents.ListItem {
+                    separatorVisible: true
 
-                Component {
-                    id: fileDelegate
-                    PlasmaComponents.ListItem {
-                        separatorVisible: true
+                    RowLayout {
 
-                        RowLayout {
+                        Image {
+                            source: Js.toImageName(fileName)
+                            fillMode: Image.PreserveAspect
+                            Layout.preferredHeight: units.iconSizes.medium
+                            Layout.preferredWidth: units.iconSizes.medium
+                            Layout.alignment: Qt.AlignVCenter
+                        }
 
-                            Image {
-                                source: Js.toImageName(fileName)
-                                height: units.iconSizes.small
-                                width: units.iconSizes.small
-                                fillMode: Image.PreserveAspectFit
-                                Layout.alignment: Qt.AlignVCenter
-                            }
+                        Text {
+                            id: fileText
+                            text: Js.toPrettyName(fileName)
+                            Layout.alignment: Qt.AlignVCenter
+                        }
 
-                            Text {
-                                id: fileText
-                                text: Js.toPrettyName(fileName)
-                                Layout.alignment: Qt.AlignVCenter
-                            }
+                        MouseArea {
+                            anchors.fill: parent
 
-                            MouseArea {
-                                anchors.fill: parent
-
-                                onClicked: {
-                                    componentsModel.append({
-                                        "filename": fileName,
-                                        "tag": componentsModel.nextAdd
-                                    });
-                                    popup.close();
-                                }
+                            onClicked: {
+                                componentsModel.append({
+                                    "filename": fileName,
+                                    "tag": componentsModel.nextAdd
+                                });
+                                popup.close();
                             }
                         }
                     }

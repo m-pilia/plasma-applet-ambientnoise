@@ -1,6 +1,6 @@
 #!/bin/sh
 BASEDIR=".."                                          # root of translatable sources
-PROJECT="plasma_applet_com.martinopilia.ambientnoise" # project name
+PROJECT="plasma_applet_org.kde.plasma.ambientnoise" # project name
 BUGADDR="http://github.com/m-pilia/plasma-applet-ambientnoise/issues"	# MSGID-Bugs
 WDIR="`pwd`/po"		# working dir
 
