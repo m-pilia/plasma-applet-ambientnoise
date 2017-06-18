@@ -53,7 +53,7 @@ Item {
             spacing: units.smallSpacing
 
             // Add new noise component
-            PlasmaComponents.Button {
+            PlasmaComponents.ToolButton {
                 id: addButton
                 iconName: "list-add"
                 Layout.alignment: Qt.AlignVCenter
@@ -71,7 +71,7 @@ Item {
             }
 
             // Play/Pause
-            PlasmaComponents.Button {
+            PlasmaComponents.ToolButton {
                 id: playButton
                 iconName: "media-playback-start"
                 Layout.alignment: Qt.AlignVCenter

@@ -87,7 +87,7 @@ PlasmaComponents.ListItem {
                 Layout.alignment: Qt.AlignCenter
 
                 // Delete component
-                PlasmaComponents.Button {
+                PlasmaComponents.ToolButton {
                     id: deleteButton
                     iconName: "delete"
                     Layout.alignment: Qt.AlignVCenter
@@ -107,7 +107,7 @@ PlasmaComponents.ListItem {
                 }
 
                 // Mute component
-                PlasmaComponents.Button {
+                PlasmaComponents.ToolButton {
                     id: muteButton
                     iconName: Js.volumeIcon(volume.value, volume.muted)
                     Layout.alignment: Qt.AlignVCenter
