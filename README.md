@@ -1,5 +1,5 @@
 # Ambient noise applet for Plasma 5
-![screenshot](https://user-images.githubusercontent.com/8300317/27251595-acf7e666-534a-11e7-95ba-dc1f70f4e18b.png)
+![screenshot](https://user-images.githubusercontent.com/8300317/27260682-155864dc-5432-11e7-8afa-4327cac14e32.png)
 
 This applet for the Plasma desktop allows to reproduce ambient noise.
 Multiple noise components can be combined, controlling their individual volume.
