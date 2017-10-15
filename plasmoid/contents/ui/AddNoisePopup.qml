@@ -18,9 +18,9 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
-import QtQuick.Window 2.2
-import Qt.labs.folderlistmodel 2.1
+import QtQuick.Controls 1.4
+import QtQuick.Window 2.0
+import Qt.labs.folderlistmodel 1.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
@@ -37,7 +37,7 @@ Window {
         id: scrollableArea
         anchors.fill: parent
         clip: true
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
         ListView {
             id: fileList

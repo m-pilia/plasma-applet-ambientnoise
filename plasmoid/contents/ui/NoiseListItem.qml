@@ -19,7 +19,7 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4
-import QtMultimedia 5.8
+import QtMultimedia 5.7
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import "../js/scripts.js" as Js
 

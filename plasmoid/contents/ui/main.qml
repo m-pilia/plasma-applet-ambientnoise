@@ -18,7 +18,7 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
