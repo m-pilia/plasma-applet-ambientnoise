@@ -1,6 +1,3 @@
-include(ECMInstallIcons)
-
-ecm_install_icons(ICONS
-    sc-apps-ambientnoise.svg
-    THEME breeze
-    DESTINATION ${ICON_INSTALL_DIR} )
+install( DIRECTORY breeze DESTINATION ${ICON_INSTALL_DIR})
+install( DIRECTORY breeze-dark DESTINATION ${ICON_INSTALL_DIR})
+install( DIRECTORY hicolor DESTINATION ${ICON_INSTALL_DIR})
