@@ -64,8 +64,8 @@ PlasmaComponents.ListItem {
         Image {
             id: componentIcon
             source: root.imageSource
-            height: .9 * root.height
-            width: height
+            Layout.preferredHeight: .9 * root.height
+            Layout.preferredWidth: height
             verticalAlignment: Image.AlignVCenter
         }
 
