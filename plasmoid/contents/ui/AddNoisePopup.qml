@@ -42,7 +42,7 @@ ScrollView
 
                 Image {
                     source: Js.toImageName(fileName)
-                    fillMode: Image.PreserveAspect
+                    fillMode: Image.PreserveAspectFit
                     Layout.preferredHeight: units.iconSizes.medium
                     Layout.preferredWidth: units.iconSizes.medium
                     Layout.alignment: Qt.AlignVCenter
