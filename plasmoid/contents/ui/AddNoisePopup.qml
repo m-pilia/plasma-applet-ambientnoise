@@ -27,55 +27,42 @@ import "../js/scripts.js" as Js
 
 ScrollView
 {
-    id: scrollableArea
-    //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-
     ListView {
-        id: fileList
-        width: .95 * scrollableArea.width
-        height: .95 * scrollableArea.height
-
-        model: folderModel
-        delegate: fileDelegate
-
-        FolderListModel {
+        model: FolderListModel {
             id: folderModel
             folder: Js.dataDirectory()
             nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
             showDirs: false
         }
 
-        Component {
-            id: fileDelegate
-            PlasmaComponents.ListItem {
-                separatorVisible: true
+        delegate: PlasmaComponents.ListItem {
+            separatorVisible: true
 
-                RowLayout {
+            RowLayout {
 
-                    Image {
-                        source: Js.toImageName(fileName)
-                        fillMode: Image.PreserveAspect
-                        Layout.preferredHeight: units.iconSizes.medium
-                        Layout.preferredWidth: units.iconSizes.medium
-                        Layout.alignment: Qt.AlignVCenter
-                    }
+                Image {
+                    source: Js.toImageName(fileName)
+                    fillMode: Image.PreserveAspect
+                    Layout.preferredHeight: units.iconSizes.medium
+                    Layout.preferredWidth: units.iconSizes.medium
+                    Layout.alignment: Qt.AlignVCenter
+                }
 
-                    Text {
-                        id: fileText
-                        text: Js.toPrettyName(fileName)
-                        Layout.alignment: Qt.AlignVCenter
-                    }
+                Text {
+                    id: fileText
+                    text: Js.toPrettyName(fileName)
+                    Layout.alignment: Qt.AlignVCenter
+                }
 
-                    MouseArea {
-                        anchors.fill: parent
+                MouseArea {
+                    anchors.fill: parent
 
-                        onClicked: {
-                            componentsModel.append({
-                                "filename": fileName,
-                                "tag": componentsModel.nextAdd
-                            });
-                            stack.pop()
-                        }
+                    onClicked: {
+                        componentsModel.append({
+                            "filename": fileName,
+                            "tag": componentsModel.nextAdd
+                        });
+                        stack.pop()
                     }
                 }
             }
