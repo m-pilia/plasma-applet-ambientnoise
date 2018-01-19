@@ -18,7 +18,7 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
@@ -73,91 +73,84 @@ Item {
         }
     }
 
-    ColumnLayout {
-        anchors.fill: parent
+    Plasmoid.fullRepresentation: StackView {
+        id: stack
+        initialItem: ColumnLayout {
+            // Global controls
+            RowLayout {
 
-        // Global controls
-        RowLayout {
+                id: globalControls
+                Layout.fillWidth: true
+                spacing: units.smallSpacing
 
-            id: globalControls
-            Layout.fillWidth: true
-            spacing: units.smallSpacing
-
-            // Add new noise component
-            PlasmaComponents.ToolButton {
-                id: addButton
-                iconName: "list-add"
-                Layout.alignment: Qt.AlignVCenter
-                onClicked: {
-                    popup.open();
-                }
-            }
-
-            // Popup showing available noise components
-            AddNoisePopup {
-                id: popup
-                height: main.height - globalControls.height - units.smallSpacing
-                width: main.width
-                y: globalControls.height + units.smallSpacing
-            }
-
-            // Play/Pause
-            PlasmaComponents.ToolButton {
-                id: playButton
-                iconName: "media-playback-start"
-                Layout.alignment: Qt.AlignVCenter
-                onClicked: {
-                    if (componentsModel.count > 0) {
-                        Js.play();
+                // Add new noise component
+                PlasmaComponents.ToolButton {
+                    id: addButton
+                    iconName: "list-add"
+                    Layout.alignment: Qt.AlignVCenter
+                    onClicked: {
+                        stack.push("AddNoisePopup.qml")
                     }
                 }
-            }
 
-            // Global volume
-            PlasmaComponents.Slider {
-                id: globalVolumeSlider
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                maximumValue: main.maxVolume
-                minimumValue: main.minVolume
-                stepSize: main.volumeStep
-                value: plasmoid.configuration.globalVolume
-                onValueChanged: {
-                    plasmoid.configuration.globalVolume = value;
+                // Play/Pause
+                PlasmaComponents.ToolButton {
+                    id: playButton
+                    iconName: "media-playback-start"
+                    Layout.alignment: Qt.AlignVCenter
+                    onClicked: {
+                        if (componentsModel.count > 0) {
+                            Js.play();
+                        }
+                    }
+                }
+
+                // Global volume
+                PlasmaComponents.Slider {
+                    id: globalVolumeSlider
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    maximumValue: main.maxVolume
+                    minimumValue: main.minVolume
+                    stepSize: main.volumeStep
+                    value: plasmoid.configuration.globalVolume
+                    onValueChanged: {
+                        plasmoid.configuration.globalVolume = value;
+                    }
+                }
+
+                Label {
+                    id: globalVolumeSliderLabel
+                    Layout.alignment: Qt.AlignVCenter
+                    text: globalVolumeSlider.value + "%"
                 }
             }
 
-            Label {
-                id: globalVolumeSliderLabel
-                Layout.alignment: Qt.AlignVCenter
-                text: globalVolumeSlider.value + "%"
-            }
-        }
-
-        // List of noise components
-        ScrollView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            ListView {
-                id: components
+            // List of noise components
+            ScrollView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                property bool playing: false
+                ListView {
+                    id: components
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                property var playableList: []
+                    property bool playing: false
 
-                model: ListModel {
-                    id: componentsModel
-                    property int nextAdd: 0
-                }
+                    property var playableList: []
 
-                delegate: NoiseListItem {
-                    audioSource: Js.toAudioName(filename)
-                    imageSource: Js.toImageName(filename)
-                    noiseName: Js.toPrettyName(filename)
-                    index: tag
+                    model: ListModel {
+                        id: componentsModel
+                        property int nextAdd: 0
+                    }
+
+                    delegate: NoiseListItem {
+                        audioSource: Js.toAudioName(filename)
+                        imageSource: Js.toImageName(filename)
+                        noiseName: Js.toPrettyName(filename)
+                        index: tag
+                    }
                 }
             }
         }

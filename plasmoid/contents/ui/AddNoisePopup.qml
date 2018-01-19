@@ -25,66 +25,56 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
 
-Window {
-    id: popup
-    title: i18n("Add a noise component")
+ScrollView
+{
+    id: scrollableArea
+    //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-    function open() {
-        show()
-    }
+    ListView {
+        id: fileList
+        width: .95 * scrollableArea.width
+        height: .95 * scrollableArea.height
 
-    ScrollView {
-        id: scrollableArea
-        anchors.fill: parent
-        clip: true
-        //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        model: folderModel
+        delegate: fileDelegate
 
-        ListView {
-            id: fileList
-            width: .95 * scrollableArea.width
-            height: .95 * scrollableArea.height
+        FolderListModel {
+            id: folderModel
+            folder: Js.dataDirectory()
+            nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
+            showDirs: false
+        }
 
-            model: folderModel
-            delegate: fileDelegate
+        Component {
+            id: fileDelegate
+            PlasmaComponents.ListItem {
+                separatorVisible: true
 
-            FolderListModel {
-                id: folderModel
-                folder: Js.dataDirectory()
-                nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
-                showDirs: false
-            }
+                RowLayout {
 
-            Component {
-                id: fileDelegate
-                PlasmaComponents.ListItem {
-                    separatorVisible: true
+                    Image {
+                        source: Js.toImageName(fileName)
+                        fillMode: Image.PreserveAspect
+                        Layout.preferredHeight: units.iconSizes.medium
+                        Layout.preferredWidth: units.iconSizes.medium
+                        Layout.alignment: Qt.AlignVCenter
+                    }
 
-                    RowLayout {
+                    Text {
+                        id: fileText
+                        text: Js.toPrettyName(fileName)
+                        Layout.alignment: Qt.AlignVCenter
+                    }
 
-                        Image {
-                            source: Js.toImageName(fileName)
-                            fillMode: Image.PreserveAspect
-                            Layout.preferredHeight: units.iconSizes.medium
-                            Layout.preferredWidth: units.iconSizes.medium
-                            Layout.alignment: Qt.AlignVCenter
-                        }
+                    MouseArea {
+                        anchors.fill: parent
 
-                        Text {
-                            id: fileText
-                            text: Js.toPrettyName(fileName)
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-
-                            onClicked: {
-                                componentsModel.append({
-                                    "filename": fileName,
-                                    "tag": componentsModel.nextAdd
-                                });
-                                popup.close();
-                            }
+                        onClicked: {
+                            componentsModel.append({
+                                "filename": fileName,
+                                "tag": componentsModel.nextAdd
+                            });
+                            stack.pop()
                         }
                     }
                 }
