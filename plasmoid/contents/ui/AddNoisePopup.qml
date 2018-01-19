@@ -48,7 +48,7 @@ ScrollView
                     Layout.alignment: Qt.AlignVCenter
                 }
 
-                Text {
+                PlasmaComponents.Label {
                     id: fileText
                     text: Js.toPrettyName(fileName)
                     Layout.alignment: Qt.AlignVCenter
