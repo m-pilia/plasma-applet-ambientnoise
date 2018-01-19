@@ -133,11 +133,8 @@ Item {
 
                 ListView {
                     id: components
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
 
                     property bool playing: false
-
                     property var playableList: []
 
                     model: ListModel {
