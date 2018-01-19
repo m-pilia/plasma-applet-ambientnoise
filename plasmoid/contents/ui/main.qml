@@ -43,6 +43,14 @@ Item {
     property real minVolume:   0.0
     property real volumeStep:  5.0
 
+    function action_playpause() {
+        playButton.clicked()
+    }
+
+    Component.onCompleted: {
+        plasmoid.setAction("playpause", i18n("Play/Pause"), "media-playback-start");
+    }
+
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
         source: plasmoid.icon
         active: mouseArea.containsMouse
