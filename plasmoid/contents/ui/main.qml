@@ -18,7 +18,8 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
@@ -40,93 +41,115 @@ Item {
 
     property real maxVolume: 100.0
     property real minVolume:   0.0
-    property real volumeStep:  5.0
+    property real volumeStep:  5.
 
-    ColumnLayout {
-        anchors.fill: parent
+    property bool playing: false
+    property var playableList: []
+    property string playButtonIconName: "media-playback-start"
 
-        // Global controls
-        RowLayout {
+    // List Model for the noise components
+    ListModel {
+        id: noiseComponentsModel
+        property int nextAdd: 0
+    }
 
-            id: globalControls
-            Layout.fillWidth: true
-            spacing: units.smallSpacing
+    function action_playpause() {
+        Js.play()
+    }
 
-            // Add new noise component
-            PlasmaComponents.ToolButton {
-                id: addButton
-                iconName: "list-add"
-                Layout.alignment: Qt.AlignVCenter
-                onClicked: {
-                    popup.open();
+    Component.onCompleted: {
+        plasmoid.setAction("playpause", i18n("Play/Pause"), "media-playback-start");
+    }
+
+    Plasmoid.compactRepresentation: PlasmaCore.IconItem {
+        source: plasmoid.icon
+        active: mouseArea.containsMouse
+        colorGroup: PlasmaCore.ColorScope.colorGroup
+
+        //TODO: add volume on wheel?
+        MouseArea {
+            id: mouseArea
+
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+            onClicked: {
+                if (mouse.button == Qt.MiddleButton) {
+                    action_playpause()
+                } else if (mouse.button == Qt.LeftButton) {
+                    plasmoid.expanded = !plasmoid.expanded;
                 }
-            }
-
-            // Popup showing available noise components
-            AddNoisePopup {
-                id: popup
-                height: main.height - globalControls.height - units.smallSpacing
-                width: main.width
-                y: globalControls.height + units.smallSpacing
-            }
-
-            // Play/Pause
-            PlasmaComponents.ToolButton {
-                id: playButton
-                iconName: "media-playback-start"
-                Layout.alignment: Qt.AlignVCenter
-                onClicked: {
-                    if (componentsModel.count > 0) {
-                        Js.play();
-                    }
-                }
-            }
-
-            // Global volume
-            PlasmaComponents.Slider {
-                id: globalVolumeSlider
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                maximumValue: main.maxVolume
-                minimumValue: main.minVolume
-                stepSize: main.volumeStep
-                value: plasmoid.configuration.globalVolume
-                onValueChanged: {
-                    plasmoid.configuration.globalVolume = value;
-                }
-            }
-
-            Label {
-                id: globalVolumeSliderLabel
-                Layout.alignment: Qt.AlignVCenter
-                text: globalVolumeSlider.value + "%"
             }
         }
+    }
 
-        // List of noise components
-        ScrollView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+    Plasmoid.fullRepresentation: StackView {
+        id: stack
+        initialItem: ColumnLayout {
+            // Global controls
+            RowLayout {
 
-            ListView {
-                id: components
+                id: globalControls
+                Layout.fillWidth: true
+                spacing: units.smallSpacing
+
+                // Add new noise component
+                PlasmaComponents.ToolButton {
+                    id: addButton
+                    iconName: "list-add"
+                    Layout.alignment: Qt.AlignVCenter
+                    onClicked: {
+                        stack.push("AddNoisePopup.qml");
+                    }
+                }
+
+                // Play/Pause
+                PlasmaComponents.ToolButton {
+                    id: playButton
+                    iconName: playButtonIconName
+                    Layout.alignment: Qt.AlignVCenter
+                    onClicked: {
+                        action_playpause();
+                    }
+                }
+
+                // Global volume
+                PlasmaComponents.Slider {
+                    id: globalVolumeSlider
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    maximumValue: main.maxVolume
+                    minimumValue: main.minVolume
+                    stepSize: main.volumeStep
+                    value: plasmoid.configuration.globalVolume
+                    onValueChanged: {
+                        plasmoid.configuration.globalVolume = value;
+                    }
+                }
+
+                Label {
+                    id: globalVolumeSliderLabel
+                    Layout.alignment: Qt.AlignVCenter
+                    text: globalVolumeSlider.value + "%"
+                }
+            }
+
+            // List of noise components
+            ScrollView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                property bool playing: false
+                ListView {
+                    id: noiseComponents
 
-                property var playableList: []
+                    model: noiseComponentsModel
 
-                model: ListModel {
-                    id: componentsModel
-                    property int nextAdd: 0
-                }
-
-                delegate: NoiseListItem {
-                    audioSource: Js.toAudioName(filename)
-                    imageSource: Js.toImageName(filename)
-                    noiseName: Js.toPrettyName(filename)
-                    index: tag
+                    delegate: NoiseListItem {
+                        audioSource: Js.toAudioName(filename)
+                        imageSource: Js.toImageName(filename)
+                        noiseName: Js.toPrettyName(filename)
+                        index: tag
+                    }
                 }
             }
         }

@@ -80,7 +80,7 @@ function dataDirectory() {
  * Multiply it by the global volume, and apply nonlinear scaling.
  */
 function computeVolume(componentVolume) {
-    var volume = componentVolume * globalVolumeSlider.value;
+    var volume = componentVolume * plasmoid.configuration.globalVolume;
     volume /= main.maxVolume * main.maxVolume;
     return QtMultimedia.convertVolume(volume,
                                       QtMultimedia.LogarithmicVolumeScale,
@@ -93,16 +93,25 @@ function computeVolume(componentVolume) {
  */
 function play(value) {
 
-    components.playing = (value === undefined) ? !components.playing : value;
-
-    if (components.playing) {
-        playButton.iconName = "media-playback-pause";
+    // If no noise component is available, reset everything to not playing,
+    // otherwise perform the selected action (play/pause/toggle).
+    if (noiseComponentsModel.count < 1) {
+        main.playing = false;
     }
     else {
-        playButton.iconName = "media-playback-start";
+        main.playing = (value === undefined) ? !main.playing : value;
     }
 
-    Object.keys(components.playableList).forEach(function(key, index) {
-        components.playableList[key].play(components.playing);
+    // Set the right icon for the Play button
+    if (main.playing) {
+        main.playButtonIconName = "media-playback-pause";
+    }
+    else {
+        main.playButtonIconName = "media-playback-start";
+    }
+
+    // Play/pause all available noise components
+    Object.keys(main.playableList).forEach(function(key, index) {
+        main.playableList[key].play(main.playing);
     });
 }

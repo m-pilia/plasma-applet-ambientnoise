@@ -25,7 +25,7 @@ import "../js/scripts.js" as Js
 
 PlasmaComponents.ListItem {
     id: root
-    width: .95 * components.width
+    width: .95 * noiseComponents.width
     height: units.gridUnit * 4
     separatorVisible: true
 
@@ -39,9 +39,9 @@ PlasmaComponents.ListItem {
     // Fix index, register object in the playable list, and play.
     Component.onCompleted: {
         index = this.index;
-        components.playableList[index] = this;
-        components.playableList[componentsModel.nextAdd].play(components.playing);
-        componentsModel.nextAdd += 1;
+        main.playableList[index] = this;
+        main.playableList[noiseComponentsModel.nextAdd].play(main.playing);
+        noiseComponentsModel.nextAdd += 1;
         Js.play(true);
     }
 
@@ -92,14 +92,14 @@ PlasmaComponents.ListItem {
                     iconName: "delete"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        for (var i = 0; i < componentsModel.count; ++i) {
-                            if (componentsModel.get(i).tag == index) {
-                                componentsModel.remove(i);
-                                delete components.playableList[index];
+                        for (var i = 0; i < noiseComponentsModel.count; ++i) {
+                            if (noiseComponentsModel.get(i).tag == index) {
+                                noiseComponentsModel.remove(i);
+                                delete main.playableList[index];
                                 break;
                             }
                         }
-                        if (components.count < 1) {
+                        if (noiseComponents.count < 1) {
                             Js.play(false);
                             return;
                         }
