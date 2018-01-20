@@ -41,7 +41,11 @@ Item {
 
     property real maxVolume: 100.0
     property real minVolume:   0.0
-    property real volumeStep:  5.0
+    property real volumeStep:  5.
+
+    property bool playing: false
+    property var playableList: []
+    property string playButtonIconName: "media-playback-start"
 
     // List Model for the noise components
     ListModel {
@@ -50,7 +54,7 @@ Item {
     }
 
     function action_playpause() {
-        playButton.clicked()
+        Js.play()
     }
 
     Component.onCompleted: {
@@ -71,7 +75,7 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
             onClicked: {
                 if (mouse.button == Qt.MiddleButton) {
-                    playButton.clicked()
+                    action_playpause()
                 } else if (mouse.button == Qt.LeftButton) {
                     plasmoid.expanded = !plasmoid.expanded;
                 }
@@ -102,12 +106,10 @@ Item {
                 // Play/Pause
                 PlasmaComponents.ToolButton {
                     id: playButton
-                    iconName: "media-playback-start"
+                    iconName: playButtonIconName
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        if (noiseComponentsModel.count > 0) {
-                            Js.play();
-                        }
+                        action_playpause();
                     }
                 }
 
@@ -139,9 +141,6 @@ Item {
 
                 ListView {
                     id: noiseComponents
-
-                    property bool playing: false
-                    property var playableList: []
 
                     model: noiseComponentsModel
 

@@ -39,8 +39,8 @@ PlasmaComponents.ListItem {
     // Fix index, register object in the playable list, and play.
     Component.onCompleted: {
         index = this.index;
-        noiseComponents.playableList[index] = this;
-        noiseComponents.playableList[noiseComponentsModel.nextAdd].play(noiseComponents.playing);
+        main.playableList[index] = this;
+        main.playableList[noiseComponentsModel.nextAdd].play(main.playing);
         noiseComponentsModel.nextAdd += 1;
         Js.play(true);
     }
@@ -95,7 +95,7 @@ PlasmaComponents.ListItem {
                         for (var i = 0; i < noiseComponentsModel.count; ++i) {
                             if (noiseComponentsModel.get(i).tag == index) {
                                 noiseComponentsModel.remove(i);
-                                delete noiseComponents.playableList[index];
+                                delete main.playableList[index];
                                 break;
                             }
                         }
