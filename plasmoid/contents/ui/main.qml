@@ -99,7 +99,7 @@ Item {
                     iconName: "list-add"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        stack.push("AddNoisePopup.qml")
+                        stack.push("AddNoisePopup.qml");
                     }
                 }
 

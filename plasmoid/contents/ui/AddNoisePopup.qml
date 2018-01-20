@@ -25,44 +25,60 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 import "../js/scripts.js" as Js
 
-ScrollView
-{
-    ListView {
-        model: FolderListModel {
-            id: folderModel
-            folder: Js.dataDirectory()
-            nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
-            showDirs: false
+ColumnLayout {
+    anchors.fill: parent
+
+    // Button to go back
+    PlasmaComponents.ToolButton {
+        iconName: "draw-arrow-back"
+        Layout.alignment: Qt.AlignVCenter
+        onClicked: {
+            stack.pop();
         }
+    }
 
-        delegate: PlasmaComponents.ListItem {
-            separatorVisible: true
+    ScrollView {        
+        Layout.fillWidth: true
+        Layout.fillHeight: true
 
-            RowLayout {
+        ListView {
 
-                Image {
-                    source: Js.toImageName(fileName)
-                    fillMode: Image.PreserveAspectFit
-                    Layout.preferredHeight: units.iconSizes.medium
-                    Layout.preferredWidth: units.iconSizes.medium
-                    Layout.alignment: Qt.AlignVCenter
-                }
+            model: FolderListModel {
+                id: folderModel
+                folder: Js.dataDirectory()
+                nameFilters: ["*.ogg", "*.flac", "*.mp3", "*.wav"]
+                showDirs: false
+            }
 
-                PlasmaComponents.Label {
-                    id: fileText
-                    text: Js.toPrettyName(fileName)
-                    Layout.alignment: Qt.AlignVCenter
-                }
+            delegate: PlasmaComponents.ListItem {
+                separatorVisible: true
 
-                MouseArea {
-                    anchors.fill: parent
+                RowLayout {
 
-                    onClicked: {
-                        noiseComponentsModel.append({
-                            "filename": fileName,
-                            "tag": noiseComponentsModel.nextAdd
-                        });
-                        stack.pop()
+                    Image {
+                        source: Js.toImageName(fileName)
+                        fillMode: Image.PreserveAspectFit
+                        Layout.preferredHeight: units.iconSizes.medium
+                        Layout.preferredWidth: units.iconSizes.medium
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    PlasmaComponents.Label {
+                        id: fileText
+                        text: Js.toPrettyName(fileName)
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            noiseComponentsModel.append({
+                                "filename": fileName,
+                                "tag": noiseComponentsModel.nextAdd
+                            });
+                            stack.pop()
+                        }
                     }
                 }
             }
