@@ -1,7 +1,7 @@
 # Ambient noise applet for Plasma 5
 ![screenshot](https://user-images.githubusercontent.com/8300317/27260682-155864dc-5432-11e7-8afa-4327cac14e32.png)
 
-This applet for the Plasma desktop allows to reproduce ambient noise.
+This applet for the KDE Plasma desktop allows to reproduce ambient noise.
 Multiple noise components can be combined, controlling their individual volume.
 The applet reads noise files and their icons from a given, customisable folder.
 The noise and the icon must be in the same folder and share the same name,
