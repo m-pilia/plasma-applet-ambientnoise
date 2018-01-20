@@ -93,16 +93,16 @@ function computeVolume(componentVolume) {
  */
 function play(value) {
 
-    components.playing = (value === undefined) ? !components.playing : value;
+    noiseComponents.playing = (value === undefined) ? !noiseComponents.playing : value;
 
-    if (components.playing) {
+    if (noiseComponents.playing) {
         playButton.iconName = "media-playback-pause";
     }
     else {
         playButton.iconName = "media-playback-start";
     }
 
-    Object.keys(components.playableList).forEach(function(key, index) {
-        components.playableList[key].play(components.playing);
+    Object.keys(noiseComponents.playableList).forEach(function(key, index) {
+        noiseComponents.playableList[key].play(noiseComponents.playing);
     });
 }

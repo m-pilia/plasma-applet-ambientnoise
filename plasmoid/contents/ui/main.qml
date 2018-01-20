@@ -43,6 +43,12 @@ Item {
     property real minVolume:   0.0
     property real volumeStep:  5.0
 
+    // List Model for the noise components
+    ListModel {
+        id: noiseComponentsModel
+        property int nextAdd: 0
+    }
+
     function action_playpause() {
         playButton.clicked()
     }
@@ -99,7 +105,7 @@ Item {
                     iconName: "media-playback-start"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        if (componentsModel.count > 0) {
+                        if (noiseComponentsModel.count > 0) {
                             Js.play();
                         }
                     }
@@ -132,15 +138,12 @@ Item {
                 Layout.fillHeight: true
 
                 ListView {
-                    id: components
+                    id: noiseComponents
 
                     property bool playing: false
                     property var playableList: []
 
-                    model: ListModel {
-                        id: componentsModel
-                        property int nextAdd: 0
-                    }
+                    model: noiseComponentsModel
 
                     delegate: NoiseListItem {
                         audioSource: Js.toAudioName(filename)
