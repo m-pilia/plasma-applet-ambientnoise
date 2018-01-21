@@ -46,6 +46,10 @@ Item {
 
     property bool playing: true
 
+    ListModel {
+        id: noiseComponentsModel
+    }
+
     function action_playpause() {
         playing = !playing
     }
@@ -134,9 +138,7 @@ Item {
                 ListView {
                     id: noiseComponents
 
-                    model: ListModel {
-                        id: noiseComponentsModel
-                    }
+                    model: noiseComponentsModel
 
                     delegate: NoiseListItem {
                         playing: main.playing
