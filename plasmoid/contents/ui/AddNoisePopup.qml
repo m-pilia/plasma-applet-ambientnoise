@@ -65,8 +65,9 @@ ScrollView {
                     anchors.fill: parent
 
                     onClicked: {
+                        main.playing = true;
                         noiseComponentsModel.append({ "filename": fileName, });
-                        stack.pop()
+                        stack.pop();
                     }
                 }
             }

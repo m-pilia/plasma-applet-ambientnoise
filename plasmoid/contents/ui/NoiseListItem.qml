@@ -118,6 +118,6 @@ PlasmaComponents.ListItem {
         id: player
         loops: Audio.Infinite
         volume: volume.muted ? 0.0 : Js.computeVolume(volume.value)
-        autoPlay: true
+        autoPlay: root.playing
     }
 }
