@@ -29,29 +29,15 @@ PlasmaComponents.ListItem {
     height: units.gridUnit * 4
     separatorVisible: true
 
-    property string objectType: "NoiseListItem"
-    property int index: -1
-    property string noiseName: ""
-    property string audioSource: ""
-    property string imageSource: ""
-    property bool dynamic: false
-
-    // Fix index, register object in the playable list, and play.
-    Component.onCompleted: {
-        index = this.index;
-        main.playableList[index] = this;
-        main.playableList[noiseComponentsModel.nextAdd].play(main.playing);
-        noiseComponentsModel.nextAdd += 1;
-        Js.play(true);
-    }
-
-    // Play or pause the audio stream of this object.
-    function play(value) {
-        if (value) {
-            player.play()
-        }
-        else {
-            player.pause()
+    property alias noiseName: name.text
+    property alias audioSource: player.source
+    property alias imageSource: componentIcon.source
+    property bool playing: false
+    onPlayingChanged: {
+        if (playing) {
+            player.play();
+        } else {
+            player.pause();
         }
     }
 
@@ -63,10 +49,9 @@ PlasmaComponents.ListItem {
         // Image for the noise component
         Image {
             id: componentIcon
-            source: root.imageSource
-            Layout.preferredHeight: .9 * root.height
+            Layout.fillHeight: true
             Layout.preferredWidth: height
-            verticalAlignment: Image.AlignVCenter
+            fillMode: Image.PreserveAspectFit
         }
 
         ColumnLayout {
@@ -75,7 +60,7 @@ PlasmaComponents.ListItem {
 
             // Name
             Label {
-                text: root.noiseName
+                id: name
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -92,17 +77,7 @@ PlasmaComponents.ListItem {
                     iconName: "delete"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        for (var i = 0; i < noiseComponentsModel.count; ++i) {
-                            if (noiseComponentsModel.get(i).tag == index) {
-                                noiseComponentsModel.remove(i);
-                                delete main.playableList[index];
-                                break;
-                            }
-                        }
-                        if (noiseComponents.count < 1) {
-                            Js.play(false);
-                            return;
-                        }
+                        noiseComponentsModel.remove(index);
                     }
                 }
 
@@ -111,7 +86,9 @@ PlasmaComponents.ListItem {
                     id: muteButton
                     iconName: Js.volumeIcon(volume.value, volume.muted)
                     Layout.alignment: Qt.AlignVCenter
-                    onClicked: {volume.muted = !volume.muted;}
+                    onClicked: {
+                        volume.muted = !volume.muted;
+                    }
                 }
 
                 // Volume slider for this component
@@ -141,8 +118,8 @@ PlasmaComponents.ListItem {
 
     Audio {
         id: player
-        source: root.audioSource
         loops: Audio.Infinite
         volume: volume.muted ? 0.0 : Js.computeVolume(volume.value)
+        autoPlay: root.playing
     }
 }

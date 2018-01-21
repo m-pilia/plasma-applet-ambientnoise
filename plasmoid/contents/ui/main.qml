@@ -36,25 +36,22 @@ Item {
     Plasmoid.switchHeight: units.gridUnit * 12
 
     Plasmoid.toolTipMainText: i18n("Ambient noise")
+    Plasmoid.toolTipSubText: playing ? i18n("Playing %1 elements", noiseComponentsModel.count) : i18n("Paused")
 
     Plasmoid.icon: "ambientnoise"
 
     property real maxVolume: 100.0
     property real minVolume:   0.0
-    property real volumeStep:  5.
+    property real volumeStep:  5.0
 
-    property bool playing: false
-    property var playableList: []
-    property string playButtonIconName: "media-playback-start"
+    property bool playing: true
 
-    // List Model for the noise components
     ListModel {
         id: noiseComponentsModel
-        property int nextAdd: 0
     }
 
     function action_playpause() {
-        Js.play()
+        playing = !playing
     }
 
     Component.onCompleted: {
@@ -64,7 +61,6 @@ Item {
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
         source: plasmoid.icon
         active: mouseArea.containsMouse
-        colorGroup: PlasmaCore.ColorScope.colorGroup
 
         //TODO: add volume on wheel?
         MouseArea {
@@ -75,7 +71,7 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
             onClicked: {
                 if (mouse.button == Qt.MiddleButton) {
-                    action_playpause()
+                    action_playpause();
                 } else if (mouse.button == Qt.LeftButton) {
                     plasmoid.expanded = !plasmoid.expanded;
                 }
@@ -106,7 +102,7 @@ Item {
                 // Play/Pause
                 PlasmaComponents.ToolButton {
                     id: playButton
-                    iconName: playButtonIconName
+                    iconName: playing ? "media-playback-pause" : "media-playback-start"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         action_playpause();
@@ -145,10 +141,10 @@ Item {
                     model: noiseComponentsModel
 
                     delegate: NoiseListItem {
+                        playing: main.playing
                         audioSource: Js.toAudioName(filename)
                         imageSource: Js.toImageName(filename)
                         noiseName: Js.toPrettyName(filename)
-                        index: tag
                     }
                 }
             }
