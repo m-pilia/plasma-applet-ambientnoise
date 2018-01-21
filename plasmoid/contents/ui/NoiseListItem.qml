@@ -77,13 +77,7 @@ PlasmaComponents.ListItem {
                     iconName: "delete"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        for (var i = 0; i < noiseComponentsModel.count; ++i) {
-                            if (noiseComponentsModel.get(i).tag == index) {
-                                noiseComponentsModel.remove(i);
-                                delete main.playableList[index];
-                                break;
-                            }
-                        }
+                        noiseComponentsModel.remove(index)
                     }
                 }
 

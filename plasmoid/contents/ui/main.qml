@@ -45,13 +45,6 @@ Item {
     property real volumeStep:  5.
 
     property bool playing: true
-    property var playableList: []
-
-    // List Model for the noise components
-    ListModel {
-        id: noiseComponentsModel
-        property int nextAdd: 0
-    }
 
     function action_playpause() {
         playing = !playing
@@ -141,7 +134,9 @@ Item {
                 ListView {
                     id: noiseComponents
 
-                    model: noiseComponentsModel
+                    model: ListModel {
+                        id: noiseComponentsModel
+                    }
 
                     delegate: NoiseListItem {
                         playing: main.playing

@@ -65,10 +65,7 @@ ScrollView {
                     anchors.fill: parent
 
                     onClicked: {
-                        noiseComponentsModel.append({
-                            "filename": fileName,
-                            "tag": noiseComponentsModel.nextAdd
-                        });
+                        noiseComponentsModel.append({ "filename": fileName, });
                         stack.pop()
                     }
                 }
