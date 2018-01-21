@@ -64,9 +64,9 @@ PlasmaComponents.ListItem {
         Image {
             id: componentIcon
             source: root.imageSource
-            Layout.preferredHeight: .9 * root.height
+            Layout.fillHeight: true
             Layout.preferredWidth: height
-            verticalAlignment: Image.AlignVCenter
+            fillMode: Image.PreserveAspectFit
         }
 
         ColumnLayout {
