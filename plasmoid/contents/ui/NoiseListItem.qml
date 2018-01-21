@@ -35,9 +35,9 @@ PlasmaComponents.ListItem {
     property bool playing: false
     onPlayingChanged: {
         if (playing) {
-            player.play()
+            player.play();
         } else {
-            player.pause()
+            player.pause();
         }
     }
 
@@ -77,7 +77,7 @@ PlasmaComponents.ListItem {
                     iconName: "delete"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        noiseComponentsModel.remove(index)
+                        noiseComponentsModel.remove(index);
                     }
                 }
 
@@ -86,7 +86,9 @@ PlasmaComponents.ListItem {
                     id: muteButton
                     iconName: Js.volumeIcon(volume.value, volume.muted)
                     Layout.alignment: Qt.AlignVCenter
-                    onClicked: {volume.muted = !volume.muted;}
+                    onClicked: {
+                        volume.muted = !volume.muted;
+                    }
                 }
 
                 // Volume slider for this component

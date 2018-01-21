@@ -42,7 +42,7 @@ Item {
 
     property real maxVolume: 100.0
     property real minVolume:   0.0
-    property real volumeStep:  5.
+    property real volumeStep:  5.0
 
     property bool playing: true
 
@@ -71,7 +71,7 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
             onClicked: {
                 if (mouse.button == Qt.MiddleButton) {
-                    action_playpause()
+                    action_playpause();
                 } else if (mouse.button == Qt.LeftButton) {
                     plasmoid.expanded = !plasmoid.expanded;
                 }
