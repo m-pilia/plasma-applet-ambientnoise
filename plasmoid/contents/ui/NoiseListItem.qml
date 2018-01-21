@@ -29,28 +29,14 @@ PlasmaComponents.ListItem {
     height: units.gridUnit * 4
     separatorVisible: true
 
-    property string objectType: "NoiseListItem"
-    property int index: -1
-    property string noiseName: ""
-    property string audioSource: ""
-    property string imageSource: ""
-    property bool dynamic: false
-
-    // Fix index, register object in the playable list, and play.
-    Component.onCompleted: {
-        index = this.index;
-        main.playableList[index] = this;
-        main.playableList[noiseComponentsModel.nextAdd].play(main.playing);
-        noiseComponentsModel.nextAdd += 1;
-        Js.play(true);
-    }
-
-    // Play or pause the audio stream of this object.
-    function play(value) {
-        if (value) {
+    property alias noiseName: name.text
+    property alias audioSource: player.source
+    property alias imageSource: componentIcon.source
+    property bool playing: false
+    onPlayingChanged: {
+        if (playing) {
             player.play()
-        }
-        else {
+        } else {
             player.pause()
         }
     }
@@ -63,7 +49,6 @@ PlasmaComponents.ListItem {
         // Image for the noise component
         Image {
             id: componentIcon
-            source: root.imageSource
             Layout.fillHeight: true
             Layout.preferredWidth: height
             fillMode: Image.PreserveAspectFit
@@ -75,7 +60,7 @@ PlasmaComponents.ListItem {
 
             // Name
             Label {
-                text: root.noiseName
+                id: name
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -98,10 +83,6 @@ PlasmaComponents.ListItem {
                                 delete main.playableList[index];
                                 break;
                             }
-                        }
-                        if (noiseComponents.count < 1) {
-                            Js.play(false);
-                            return;
                         }
                     }
                 }
@@ -141,8 +122,8 @@ PlasmaComponents.ListItem {
 
     Audio {
         id: player
-        source: root.audioSource
         loops: Audio.Infinite
         volume: volume.muted ? 0.0 : Js.computeVolume(volume.value)
+        autoPlay: true
     }
 }

@@ -36,6 +36,7 @@ Item {
     Plasmoid.switchHeight: units.gridUnit * 12
 
     Plasmoid.toolTipMainText: i18n("Ambient noise")
+    Plasmoid.toolTipSubText: playing ? i18n("Playing %1 elements", noiseComponentsModel.count) : i18n("Paused")
 
     Plasmoid.icon: "ambientnoise"
 
@@ -43,9 +44,8 @@ Item {
     property real minVolume:   0.0
     property real volumeStep:  5.
 
-    property bool playing: false
+    property bool playing: true
     property var playableList: []
-    property string playButtonIconName: "media-playback-start"
 
     // List Model for the noise components
     ListModel {
@@ -54,7 +54,7 @@ Item {
     }
 
     function action_playpause() {
-        Js.play()
+        playing = !playing
     }
 
     Component.onCompleted: {
@@ -64,7 +64,6 @@ Item {
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
         source: plasmoid.icon
         active: mouseArea.containsMouse
-        colorGroup: PlasmaCore.ColorScope.colorGroup
 
         //TODO: add volume on wheel?
         MouseArea {
@@ -106,7 +105,7 @@ Item {
                 // Play/Pause
                 PlasmaComponents.ToolButton {
                     id: playButton
-                    iconName: playButtonIconName
+                    iconName: playing ? "media-playback-pause" : "media-playback-start"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         action_playpause();
@@ -145,10 +144,10 @@ Item {
                     model: noiseComponentsModel
 
                     delegate: NoiseListItem {
+                        playing: main.playing
                         audioSource: Js.toAudioName(filename)
                         imageSource: Js.toImageName(filename)
                         noiseName: Js.toPrettyName(filename)
-                        index: tag
                     }
                 }
             }

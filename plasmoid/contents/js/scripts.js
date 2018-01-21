@@ -86,32 +86,3 @@ function computeVolume(componentVolume) {
                                       QtMultimedia.LogarithmicVolumeScale,
                                       QtMultimedia.LinearVolumeScale);
 }
-
-/*!
- * Play all the audio streams for the noise components.
- * @param  value Boolean, play if true, stop if false, toggle if undefined.
- */
-function play(value) {
-
-    // If no noise component is available, reset everything to not playing,
-    // otherwise perform the selected action (play/pause/toggle).
-    if (noiseComponentsModel.count < 1) {
-        main.playing = false;
-    }
-    else {
-        main.playing = (value === undefined) ? !main.playing : value;
-    }
-
-    // Set the right icon for the Play button
-    if (main.playing) {
-        main.playButtonIconName = "media-playback-pause";
-    }
-    else {
-        main.playButtonIconName = "media-playback-start";
-    }
-
-    // Play/pause all available noise components
-    Object.keys(main.playableList).forEach(function(key, index) {
-        main.playableList[key].play(main.playing);
-    });
-}
