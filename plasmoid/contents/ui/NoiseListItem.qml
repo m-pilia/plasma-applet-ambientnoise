@@ -74,7 +74,7 @@ PlasmaComponents.ListItem {
                 // Delete component
                 PlasmaComponents.ToolButton {
                     id: deleteButton
-                    iconName: "delete"
+                    iconName: "edit-delete"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         noiseComponentsModel.remove(index);
