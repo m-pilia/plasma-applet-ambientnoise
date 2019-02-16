@@ -11,6 +11,21 @@
           <default>30</default>
         </entry>
 
+        <!-- noise components -->
+        <entry name="noiseComponents" type="String">
+          <default>[]</default>
+        </entry>
+
+        <!-- playing status -->
+        <entry name="playing" type="Bool">
+          <default>true</default>
+        </entry>
+
+        <!-- paused at startup -->
+        <entry name="pausedAtStartup" type="Bool">
+          <default>false</default>
+        </entry>
+
         <!-- system noise audio data -->
         <entry name="noiseDataDirectory" type="String">
             <default>/usr/share/anoise/sounds</default>

@@ -1,62 +1,61 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Swedish translation file.
+# Copyright (C) 2019 Martino Pilia
+# This file is distributed under the same license as the Ambient Noise package.
+# Martino Pilia <martino.pilia@gmail.com>, 2019.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://github.com/m-pilia/plasma-applet-ambientnoise/"
 "issues\n"
 "POT-Creation-Date: 2019-02-16 22:19+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2017-06-18 14:15+0200\n"
+"Last-Translator: Martino Pilia <martino.pilia@gmail.com>\n"
+"Language-Team: sv <martino.pilia@gmail.com>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../plasmoid/contents/config/config.qml:24
 msgid "Ambient noise"
-msgstr ""
+msgstr "Omgivande ljud"
 
 #: ../plasmoid/contents/ui/main.qml:38
 msgid "Volume"
-msgstr ""
+msgstr "Volym"
 
 #: ../plasmoid/contents/ui/main.qml:39
 msgid "Playing 1 noise"
 msgid_plural "Playing %1 noises"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Spelar 1 ljud"
+msgstr[1] "Spelar %1 ljud"
 
 #: ../plasmoid/contents/ui/main.qml:39
 msgid "Paused"
-msgstr ""
+msgstr "Pausad"
 
 #: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
 msgid "Play"
-msgstr ""
+msgstr "Spela"
 
 #: ../plasmoid/contents/ui/main.qml:122
 msgid "Add a noise component"
-msgstr ""
+msgstr "Lägga till ett ljud"
 
 #: ../plasmoid/contents/ui/settings.qml:40
 msgid "Noise data folder"
-msgstr ""
+msgstr "Ljud mapp"
 
 #: ../plasmoid/contents/ui/settings.qml:53
 msgid "Restore default"
-msgstr ""
+msgstr "Återställa förvalt"
 
 #: ../plasmoid/contents/ui/settings.qml:63
 msgid "Paused at start-up"
-msgstr ""
+msgstr "Pausad vid start"

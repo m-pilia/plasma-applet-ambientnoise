@@ -86,3 +86,41 @@ function computeVolume(componentVolume) {
                                       QtMultimedia.LogarithmicVolumeScale,
                                       QtMultimedia.LinearVolumeScale);
 }
+
+/*!
+ * Serialise a QML DataModel object.
+ */
+function serialiseDataModel(dataModel) {
+    var data = [];
+    for (var i = 0; i < dataModel.count; ++i) {
+        data.push(dataModel.get(i));
+    }
+    return JSON.stringify(data);
+}
+
+/*!
+ * Deserialise a QML DataModel object.
+ */
+function deserialiseDataModel(dataString, dataModel) {
+    if (dataString) {
+        dataModel.clear();
+        var data = JSON.parse(dataString);
+        for (var i = 0; i < data.length; ++i) {
+            dataModel.append(data[i]);
+        }
+    }
+}
+
+/*!
+ * Save current noise component settings.
+ */
+function saveComponents() {
+    plasmoid.configuration.noiseComponents = serialiseDataModel(noiseComponentsModel);
+}
+
+/*!
+ * Restore noise components from settings.
+ */
+function restoreComponents() {
+    deserialiseDataModel(plasmoid.configuration.noiseComponents, noiseComponentsModel);
+}

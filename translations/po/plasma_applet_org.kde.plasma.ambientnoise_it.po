@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Italian translation file.
+# Copyright (C) 2019 Martino Pilia
+# This file is distributed under the same license as the Ambient Noise package.
+# Martino Pilia <martino.pilia@gmail.com>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://github.com/m-pilia/plasma-applet-ambientnoise/"
 "issues\n"
-"POT-Creation-Date: 2017-06-18 14:15+0200\n"
+"POT-Creation-Date: 2019-02-16 22:19+0100\n"
 "PO-Revision-Date: 2017-06-18 14:15+0200\n"
 "Last-Translator: Martino Pilia <martino.pilia@gmail.com>\n"
 "Language-Team: it <martino.pilia@gmail.com>\n"
@@ -16,16 +16,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../plasmoid/contents/config/config.qml:24
-#: ../plasmoid/contents/ui/main.qml:37
 msgid "Ambient noise"
 msgstr "Rumore ambientale"
 
-#: ../plasmoid/contents/ui/AddNoisePopup.qml:30
+#: ../plasmoid/contents/ui/main.qml:38
+msgid "Volume"
+msgstr "Volume"
+
+#: ../plasmoid/contents/ui/main.qml:39
+msgid "Playing 1 noise"
+msgid_plural "Playing %1 noises"
+msgstr[0] "Riproducendo 1 rumore"
+msgstr[1] "Riproducendo %1 rumori"
+
+#: ../plasmoid/contents/ui/main.qml:39
+msgid "Paused"
+msgstr "In pausa"
+
+#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
+msgid "Play"
+msgstr "Riproduci"
+
+#: ../plasmoid/contents/ui/main.qml:122
 msgid "Add a noise component"
 msgstr "Aggiungi una componente di rumore"
 
-#: ../plasmoid/contents/ui/settings.qml:39
+#: ../plasmoid/contents/ui/settings.qml:40
 msgid "Noise data folder"
-msgstr "Cartella file di rumore"
+msgstr "Cartella contenente i file di rumore"
+
+#: ../plasmoid/contents/ui/settings.qml:53
+msgid "Restore default"
+msgstr "Ripristina valore predefinito"
+
+#: ../plasmoid/contents/ui/settings.qml:63
+msgid "Paused at start-up"
+msgstr "In pausa all'avvio"
