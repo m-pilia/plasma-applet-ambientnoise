@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://github.com/m-pilia/plasma-applet-ambientnoise/"
 "issues\n"
-"POT-Creation-Date: 2017-06-18 14:15+0200\n"
+"POT-Creation-Date: 2019-02-16 22:19+0100\n"
 "PO-Revision-Date: 2017-06-18 14:15+0200\n"
 "Last-Translator: Martino Pilia <martino.pilia@gmail.com>\n"
 "Language-Team: it <martino.pilia@gmail.com>\n"
@@ -18,14 +18,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../plasmoid/contents/config/config.qml:24
-#: ../plasmoid/contents/ui/main.qml:37
 msgid "Ambient noise"
 msgstr ""
 
-#: ../plasmoid/contents/ui/AddNoisePopup.qml:30
+#: ../plasmoid/contents/ui/main.qml:38
+msgid "Volume"
+msgstr ""
+
+#: ../plasmoid/contents/ui/main.qml:39
+msgid "Playing 1 noise"
+msgid_plural "Playing %1 noises"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../plasmoid/contents/ui/main.qml:39
+msgid "Paused"
+msgstr ""
+
+#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
+msgid "Pause"
+msgstr ""
+
+#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
+msgid "Play"
+msgstr ""
+
+#: ../plasmoid/contents/ui/main.qml:122
 msgid "Add a noise component"
 msgstr ""
 
-#: ../plasmoid/contents/ui/settings.qml:39
+#: ../plasmoid/contents/ui/settings.qml:40
 msgid "Noise data folder"
+msgstr ""
+
+#: ../plasmoid/contents/ui/settings.qml:53
+msgid "Restore default"
+msgstr ""
+
+#: ../plasmoid/contents/ui/settings.qml:63
+msgid "Paused at start-up"
 msgstr ""

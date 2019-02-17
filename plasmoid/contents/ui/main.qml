@@ -35,8 +35,8 @@ Item {
     Plasmoid.switchWidth: units.gridUnit * 12
     Plasmoid.switchHeight: units.gridUnit * 12
 
-    Plasmoid.toolTipMainText: i18n("Ambient noise")
-    Plasmoid.toolTipSubText: playing ? i18n("Playing %1 elements", noiseComponentsModel.count) : i18n("Paused")
+    Plasmoid.toolTipMainText: i18n("Volume") + ": " + plasmoid.configuration.globalVolume + " %"
+    Plasmoid.toolTipSubText: playing ? i18np("Playing 1 noise", "Playing %1 noises", noiseComponentsModel.count) : i18n("Paused")
 
     Plasmoid.icon: "ambientnoise"
 
@@ -44,37 +44,63 @@ Item {
     property real minVolume:   0.0
     property real volumeStep:  5.0
 
-    property bool playing: true
+    property bool playing: plasmoid.configuration.playing // Do not bind this to pausedAtStartup
 
     ListModel {
         id: noiseComponentsModel
+
+        Component.onCompleted: {
+            // Restore noise components
+            try {
+                Js.restoreComponents();
+
+                // Force initialisation of the noiseComponents ListView
+                plasmoid.expanded = true;
+                plasmoid.expanded = false;
+            }
+            catch (e) {
+                console.log(e);
+                plasmoid.configuration.noiseComponents = '[]';
+            }
+        }
     }
 
     function action_playpause() {
-        playing = !playing
+        playing = !playing;
+        plasmoid.configuration.playing = playing;
+        plasmoid.removeAction("playpause");
+        plasmoid.setAction("playpause", playing ? i18n("Pause") : i18n("Play"), "media-playback-start");
     }
 
     Component.onCompleted: {
-        plasmoid.setAction("playpause", i18n("Play/Pause"), "media-playback-start");
+        plasmoid.setAction("playpause", playing ? i18n("Pause") : i18n("Play"), "media-playback-start");
+        playing = playing && !plasmoid.configuration.pausedAtStartup;
     }
 
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
         source: plasmoid.icon
         active: mouseArea.containsMouse
 
-        //TODO: add volume on wheel?
         MouseArea {
             id: mouseArea
 
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+
             onClicked: {
                 if (mouse.button == Qt.MiddleButton) {
                     action_playpause();
                 } else if (mouse.button == Qt.LeftButton) {
                     plasmoid.expanded = !plasmoid.expanded;
                 }
+            }
+
+            onWheel: {
+                var angleStep = 15; // As in most mouse types
+                var volumeDelta = main.volumeStep * Math.round(wheel.angleDelta.y / angleStep);
+                var volume = plasmoid.configuration.globalVolume + volumeDelta;
+                plasmoid.configuration.globalVolume = Math.min(main.maxVolume, Math.max(main.minVolume, volume))
             }
         }
     }
@@ -93,6 +119,7 @@ Item {
                 PlasmaComponents.ToolButton {
                     id: addButton
                     iconName: "list-add"
+                    tooltip: i18n("Add a noise component")
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         stack.push("AddNoisePopup.qml");
@@ -142,9 +169,11 @@ Item {
 
                     delegate: NoiseListItem {
                         playing: main.playing
-                        audioSource: Js.toAudioName(filename)
-                        imageSource: Js.toImageName(filename)
-                        noiseName: Js.toPrettyName(filename)
+                        audioSource: Js.toAudioName(_filename)
+                        imageSource: Js.toImageName(_filename)
+                        noiseName: Js.toPrettyName(_filename)
+                        volume: _volume
+                        muted: _muted
                     }
                 }
             }

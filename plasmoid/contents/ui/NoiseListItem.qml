@@ -32,7 +32,10 @@ PlasmaComponents.ListItem {
     property alias noiseName: name.text
     property alias audioSource: player.source
     property alias imageSource: componentIcon.source
+    property alias volume: slider.value
+    property bool muted: false
     property bool playing: false
+
     onPlayingChanged: {
         if (playing) {
             player.play();
@@ -40,6 +43,8 @@ PlasmaComponents.ListItem {
             player.pause();
         }
     }
+
+    Component.onCompleted: Js.saveComponents()
 
     RowLayout {
         id: componentLine
@@ -78,38 +83,43 @@ PlasmaComponents.ListItem {
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         noiseComponentsModel.remove(index);
+                        Js.saveComponents();
                     }
                 }
 
                 // Mute component
                 PlasmaComponents.ToolButton {
                     id: muteButton
-                    iconName: Js.volumeIcon(volume.value, volume.muted)
+                    iconName: Js.volumeIcon(slider.value, muted)
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
-                        volume.muted = !volume.muted;
+                        muted = !muted;
+                        noiseComponentsModel.get(index)._muted = muted
+                        Js.saveComponents();
                     }
                 }
 
                 // Volume slider for this component
                 PlasmaComponents.Slider {
-                    id: volume
+                    id: slider
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     maximumValue: main.maxVolume
                     minimumValue: main.minVolume
                     stepSize: main.volumeStep
-                    value: main.maxVolume
-                    property bool muted: false
                     enabled: !muted
                     opacity: muted ? 0.5 : 1.0
+                    onValueChanged: {
+                        noiseComponentsModel.get(index)._volume = value;
+                        Js.saveComponents();
+                    }
                 }
 
                 // Display volume value
                 Label {
                     id: volumeLabel
-                    text: volume.value + "%"
-                    opacity: volume.muted ? 0.5 : 1.0
+                    text: slider.value + "%"
+                    opacity: muted ? 0.5 : 1.0
                     Layout.alignment: Qt.AlignVCenter
                 }
             }
@@ -119,7 +129,7 @@ PlasmaComponents.ListItem {
     Audio {
         id: player
         loops: Audio.Infinite
-        volume: volume.muted ? 0.0 : Js.computeVolume(volume.value)
+        volume: muted ? 0.0 : Js.computeVolume(slider.value)
         autoPlay: root.playing
     }
 }

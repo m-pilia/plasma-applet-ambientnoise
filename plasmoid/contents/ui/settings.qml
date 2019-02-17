@@ -29,6 +29,7 @@ Item {
 
     property string defaultNoiseDataDirectory: "/usr/share/anoise/sounds"
     property alias cfg_noiseDataDirectory: noiseData.text
+    property alias cfg_pausedAtStartup: pausedAtStartup.checked
 
     ColumnLayout {
         width: settings.width
@@ -49,11 +50,17 @@ Item {
             /* restore default */
             PlasmaComponents.Button {
                 iconName: "edit-undo"
-                tooltip: "Restore default"
+                tooltip: i18n("Restore default")
                 onClicked: {
                     noiseData.text = defaultNoiseDataDirectory
                 }
             }
+        }
+
+        /* play on startup */
+        PlasmaComponents.CheckBox {
+            id: pausedAtStartup
+            text: i18n("Paused at start-up")
         }
     }
 }

@@ -60,15 +60,19 @@ ScrollView {
                     text: Js.toPrettyName(fileName)
                     Layout.alignment: Qt.AlignVCenter
                 }
+            }
 
-                MouseArea {
-                    anchors.fill: parent
+            MouseArea {
+                anchors.fill: parent
 
-                    onClicked: {
-                        main.playing = true;
-                        noiseComponentsModel.append({ "filename": fileName, });
-                        stack.pop();
-                    }
+                onClicked: {
+                    main.playing = true;
+                    noiseComponentsModel.append({
+                        "_filename": fileName,
+                        "_volume": main.maxVolume,
+                        "_muted": false,
+                    });
+                    stack.pop();
                 }
             }
         }
