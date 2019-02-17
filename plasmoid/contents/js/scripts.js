@@ -124,3 +124,13 @@ function saveComponents() {
 function restoreComponents() {
     deserialiseDataModel(plasmoid.configuration.noiseComponents, noiseComponentsModel);
 }
+
+/*!
+ * Set the playpause action in the context menu.
+ */
+function setPlayPauseAction() {
+    var text = main.playing ? i18n("Pause") : i18n("Play");
+    var icon = "media-playback-" + (main.playing ? "pause" : "start");
+    plasmoid.removeAction("playpause");
+    plasmoid.setAction("playpause", text, icon);
+}

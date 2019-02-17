@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://github.com/m-pilia/plasma-applet-ambientnoise/"
 "issues\n"
-"POT-Creation-Date: 2019-02-16 22:19+0100\n"
+"POT-Creation-Date: 2019-02-17 14:21+0100\n"
 "PO-Revision-Date: 2017-06-18 14:15+0200\n"
 "Last-Translator: Martino Pilia <martino.pilia@gmail.com>\n"
 "Language-Team: it <martino.pilia@gmail.com>\n"
@@ -21,6 +21,14 @@ msgstr ""
 #: ../plasmoid/contents/config/config.qml:24
 msgid "Ambient noise"
 msgstr "Rumore ambientale"
+
+#: ../plasmoid/contents/js/scripts.js:132
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../plasmoid/contents/js/scripts.js:132
+msgid "Play"
+msgstr "Riproduci"
 
 #: ../plasmoid/contents/ui/main.qml:38
 msgid "Volume"
@@ -36,15 +44,7 @@ msgstr[1] "Riproducendo %1 rumori"
 msgid "Paused"
 msgstr "In pausa"
 
-#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
-msgid "Pause"
-msgstr "Pausa"
-
-#: ../plasmoid/contents/ui/main.qml:72 ../plasmoid/contents/ui/main.qml:76
-msgid "Play"
-msgstr "Riproduci"
-
-#: ../plasmoid/contents/ui/main.qml:122
+#: ../plasmoid/contents/ui/main.qml:121
 msgid "Add a noise component"
 msgstr "Aggiungi una componente di rumore"
 
