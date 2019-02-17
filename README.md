@@ -52,6 +52,19 @@ language you are adding).
 request on
 GitHub](https://github.com/m-pilia/plasma-applet-ambientnoise/pulls).
 
+# Troubleshooting
+
+In case something seems not to be working, launch the plasmoid in debug mode
+from a console, with `plasmoidviewer -a org.kde.plasma.ambientnoise` or
+`plasmawindowed org.kde.plasma.ambientnoise`, and look for relevant log
+messages. Especially when it comes to audio playback, most of the troubles come
+from bad configuration of the multimedia back-end, or missing plugins.
+
+If no audio is played, or the audio plays but the volume controls do not work,
+or if you see messages like `Error: "The autoaudiosink element is missing."` or
+`Warning: "No volume control found"`, try installing
+[gst-plugins-good](https://gstreamer.freedesktop.org/modules/gst-plugins-good.html).
+
 # License
 The project is licensed under GPL 3. See [LICENSE](./LICENSE)
 file for the full license.
