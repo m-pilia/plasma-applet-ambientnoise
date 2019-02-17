@@ -66,12 +66,14 @@ ScrollView {
                 anchors.fill: parent
 
                 onClicked: {
-                    main.playing = true;
                     noiseComponentsModel.append({
                         "_filename": fileName,
                         "_volume": main.maxVolume,
                         "_muted": false,
                     });
+                    if (!main.playing) {
+                        main.action_playpause();
+                    }
                     stack.pop();
                 }
             }

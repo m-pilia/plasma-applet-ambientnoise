@@ -68,13 +68,12 @@ Item {
     function action_playpause() {
         playing = !playing;
         plasmoid.configuration.playing = playing;
-        plasmoid.removeAction("playpause");
-        plasmoid.setAction("playpause", playing ? i18n("Pause") : i18n("Play"), "media-playback-start");
+        Js.setPlayPauseAction();
     }
 
     Component.onCompleted: {
-        plasmoid.setAction("playpause", playing ? i18n("Pause") : i18n("Play"), "media-playback-start");
         playing = playing && !plasmoid.configuration.pausedAtStartup;
+        Js.setPlayPauseAction();
     }
 
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
