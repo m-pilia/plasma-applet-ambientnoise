@@ -16,6 +16,17 @@
  * along with Ambient Noise. If not, see <http://www.gnu.org/licenses/>.
  */
 
+"use strict";
+
+/* global
+ * QtMultimedia:readonly,
+ * i18n:readonly,
+ * main:readonly,
+ * maxVolume:readonly,
+ * noiseComponentsModel:readonly,
+ * plasmoid:readonly,
+ */
+
 /*!
  * Name for the volume icon, according to current volume value.
  * @param  volume Numeric volume value
@@ -41,7 +52,7 @@ function volumeIcon(volume, muted) {
  * Strip extension from a file name.
  */
 function toName(str) {
-    return str.replace(/\.[^\.]+$/, "");
+    return str.replace(/\.[^.]+$/, "");
 }
 
 /*!
