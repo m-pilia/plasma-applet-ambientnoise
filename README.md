@@ -50,6 +50,12 @@ file `plasma_applet_org.kde.plasma.ambientnoise.pot` to
 code](http://www.loc.gov/standards/iso639-2/php/English_list.php) for the
 language you are adding).
 + Fill all the fields inside the file.
++ Add two lines to
+  [`plasmoid/metadata.desktop`](https://github.com/m-pilia/plasma-applet-ambientnoise/blob/master/plasmoid/metadata.desktop)
+  as follows, next to the corresponding pre-existing lines (once again, `XX`
+  represents the ISO code of the new language):
+    + `Name[XX]=...` filled with a translation of the name;
+    + `Comment[XX]=...` filled with a translation of the comment.
 + Commit and open a [pull
 request on
 GitHub](https://github.com/m-pilia/plasma-applet-ambientnoise/pulls).
