@@ -21,10 +21,14 @@ Free noises in a ready-to-use format for this plasmoid can be found in the
 
 The applet can be installed locally with
 ```bash
+git clone https://github.com/m-pilia/plasma-applet-ambientnoise
+cd plasma-applet-ambientnoise/
 kpackagetool5 -t Plasma/Applet --install plasmoid
 ```
 or globally with
 ```bash
+git clone https://github.com/m-pilia/plasma-applet-ambientnoise
+cd plasma-applet-ambientnoise/
 cmake . -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix`
 make
 sudo make install
