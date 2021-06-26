@@ -1,5 +1,6 @@
 # Ambient noise applet for Plasma 5
-[![Travis CI Build Status](https://travis-ci.org/m-pilia/plasma-applet-ambientnoise.svg?branch=master)](https://travis-ci.org/m-pilia/plasma-applet-ambientnoise)
+[![Checks](https://github.com/m-pilia/plasma-applet-ambientnoise/workflows/Checks/badge.svg)](https://github.com/m-pilia/plasma-applet-ambientnoise/actions/workflows/checks.yml)
+
 
 ![screenshot](https://user-images.githubusercontent.com/8300317/27260682-155864dc-5432-11e7-8afa-4327cac14e32.png)
 
