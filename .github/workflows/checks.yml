@@ -1,0 +1,45 @@
+name: Checks
+
+on: [push, pull_request]
+
+jobs:
+  qmllint:
+    runs-on: ubuntu-20.04
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y --no-install-recommends qtdeclarative5-dev-tools
+
+    - name: Run qmllint
+      run: |
+        find . -name \*.qml -exec /usr/lib/x86_64-linux-gnu/qt5/bin/qmllint {} \+
+
+  ESLint:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install ESLint
+      run: |
+        sudo npm install -g eslint
+
+    - name: Run ESLint
+      run: |
+        eslint .
+
+  Shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@1.1.0
