@@ -1,4 +1,4 @@
-# Ambient noise applet for Plasma 5
+# Ambient noise applet for Plasma 6
 [![Checks](https://github.com/m-pilia/plasma-applet-ambientnoise/workflows/Checks/badge.svg)](https://github.com/m-pilia/plasma-applet-ambientnoise/actions/workflows/checks.yml)
 
 
@@ -24,21 +24,22 @@ The applet can be installed locally with
 ```bash
 git clone https://github.com/m-pilia/plasma-applet-ambientnoise
 cd plasma-applet-ambientnoise/
-kpackagetool5 -t Plasma/Applet --install plasmoid
+kpackagetool6 -t Plasma/Applet --install plasmoid
 ```
 or globally with
 ```bash
 git clone https://github.com/m-pilia/plasma-applet-ambientnoise
 cd plasma-applet-ambientnoise/
-cmake . -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix`
-make
-sudo make install
+mkdir build
+cmake . -B build
+cmake --build build
+sudo cmake --install build
 ```
 
 To see the plasmoid, you may need to restart plasmashell
 ```bash
-kquitapp5 plasmashell
-kstart5 plasmashell
+kquitapp6 plasmashell
+kstart plasmashell
 ```
 
 # Contribute
@@ -71,12 +72,7 @@ In case something seems not to be working, launch the plasmoid in debug mode
 from a console, with `plasmoidviewer -a org.kde.plasma.ambientnoise` or
 `plasmawindowed org.kde.plasma.ambientnoise`, and look for relevant log
 messages. Especially when it comes to audio playback, most of the troubles come
-from bad configuration of the multimedia back-end, or missing plugins.
-
-If no audio is played, or the audio plays but the volume controls do not work,
-or if you see messages like `Error: "The autoaudiosink element is missing."` or
-`Warning: "No volume control found"`, try installing
-[gst-plugins-good](https://gstreamer.freedesktop.org/modules/gst-plugins-good.html).
+from bad configuration of the multimedia back-end.
 
 # License
 The project is licensed under GPL 3. See [LICENSE](./LICENSE)

@@ -1,0 +1,30 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "martino.pilia@gmail.com",
+                "Name": "Martino Pilia"
+            }
+        ],
+        "Category": "Multimedia",
+        "Description": "Plasmoid for ambient noise reproduction",
+        "Description[it]": "Plasmoide per la riproduzione di rumore ambientale",
+        "Description[sv]": "Plasmoid som spelar omgivande ljud",
+        "EnabledByDefault": true,
+        "Icon": "ambientnoise",
+        "Id": "org.kde.plasma.ambientnoise",
+        "License": "GPL",
+        "Name": "Ambient noise",
+        "Name[it]": "Rumore ambientale",
+        "Name[sv]": "Omgivande ljud",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "0.6",
+        "Website": "https://github.com/m-pilia/plasma-applet-ambientnoise"
+    },
+    "X-Plasma-NotificationArea": "true",
+    "X-Plasma-NotificationAreaCategory": "ApplicationStatus",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

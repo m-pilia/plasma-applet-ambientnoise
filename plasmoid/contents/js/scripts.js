@@ -83,7 +83,7 @@ function toImageName(filename) {
  */
 function dataDirectory() {
     var dir = plasmoid.configuration.noiseDataDirectory;
-    return dir.trim().replace(/\/*$/, "") + "/";
+    return "file://" + dir.trim().replace(/\/*$/, "") + "/";
 }
 
 /*!
@@ -91,11 +91,8 @@ function dataDirectory() {
  * Multiply it by the global volume, and apply nonlinear scaling.
  */
 function computeVolume(componentVolume) {
-    var volume = componentVolume * plasmoid.configuration.globalVolume;
-    volume /= main.maxVolume * main.maxVolume;
-    return QtMultimedia.convertVolume(volume,
-                                      QtMultimedia.LogarithmicVolumeScale,
-                                      QtMultimedia.LinearVolumeScale);
+    const volume = (componentVolume * plasmoid.configuration.globalVolume) / (main.maxVolume ** 2);
+    return (volume > 0.99) ? 1.0 : -Math.log(1.0 - volume) / Math.log(100.0);
 }
 
 /*!
@@ -133,15 +130,11 @@ function saveComponents() {
  * Restore noise components from settings.
  */
 function restoreComponents() {
-    deserialiseDataModel(plasmoid.configuration.noiseComponents, noiseComponentsModel);
-}
-
-/*!
- * Set the playpause action in the context menu.
- */
-function setPlayPauseAction() {
-    var text = main.playing ? i18n("Pause") : i18n("Play");
-    var icon = "media-playback-" + (main.playing ? "pause" : "start");
-    plasmoid.removeAction("playpause");
-    plasmoid.setAction("playpause", text, icon);
+    try {
+        deserialiseDataModel(plasmoid.configuration.noiseComponents, noiseComponentsModel);
+    }
+    catch (e) {
+        console.log(e);
+        plasmoid.configuration.noiseComponents = "[]";
+    }
 }

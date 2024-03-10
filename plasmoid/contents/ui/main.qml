@@ -16,27 +16,31 @@
  * along with Ambient Noise. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import QtMultimedia
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
+
 import "../js/scripts.js" as Js
 
-Item {
+PlasmoidItem {
     id: main
 
-    Layout.minimumHeight: units.gridUnit * 12
-    Layout.minimumWidth: units.gridUnit * 12
-    Layout.preferredHeight: units.gridUnit * 20
-    Layout.preferredWidth: units.gridUnit * 20
+    Layout.minimumHeight: Kirigami.Units.gridUnit * 12
+    Layout.minimumWidth: Kirigami.Units.gridUnit * 12
+    Layout.preferredHeight: Kirigami.Units.gridUnit * 20
+    Layout.preferredWidth: Kirigami.Units.gridUnit * 20
 
-    Plasmoid.switchWidth: units.gridUnit * 12
-    Plasmoid.switchHeight: units.gridUnit * 12
+    switchWidth: Kirigami.Units.gridUnit * 12
+    switchHeight: Kirigami.Units.gridUnit * 12
 
-    Plasmoid.toolTipMainText: i18n("Volume") + ": " + plasmoid.configuration.globalVolume + " %"
-    Plasmoid.toolTipSubText: playing ? i18np("Playing 1 noise", "Playing %1 noises", noiseComponentsModel.count) : i18n("Paused")
+    toolTipMainText: i18n("Volume") + ": " + plasmoid.configuration.globalVolume + " %"
+    toolTipSubText: playing ? i18np("Playing 1 noise", "Playing %1 noises", noiseComponentsModel.count) : i18n("Paused")
 
     Plasmoid.icon: "ambientnoise"
 
@@ -46,21 +50,60 @@ Item {
 
     property bool playing: plasmoid.configuration.playing // Do not bind this to pausedAtStartup
 
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Play")
+            icon.name: "media-playback-start"
+            priority: Plasmoid.LowPriorityAction
+            visible: !playing
+            enabled: !playing
+            onTriggered: action_playpause()
+        },
+        PlasmaCore.Action {
+            text: i18n("Pause")
+            icon.name: "media-playback-pause"
+            priority: Plasmoid.LowPriorityAction
+            visible: playing
+            enabled: playing
+            onTriggered: action_playpause()
+        }
+    ]
+
     ListModel {
         id: noiseComponentsModel
+        Component.onCompleted: Js.restoreComponents()
+    }
 
-        Component.onCompleted: {
-            // Restore noise components
-            try {
-                Js.restoreComponents();
+    ListView {
+        id: players
+        model: noiseComponentsModel
 
-                // Force initialisation of the noiseComponents ListView
-                plasmoid.expanded = true;
-                plasmoid.expanded = false;
+        // Nonzero size to allow fitting more than one element
+        width: 1
+        height: 1
+
+        delegate: Item {
+            id: player_delegate
+            readonly property real volume: _volume
+            readonly property bool muted: _muted
+            readonly property bool playing: main.playing
+
+            onPlayingChanged: {
+                if (playing) {
+                    media_player.play();
+                }
+                else {
+                    media_player.pause();
+                }
             }
-            catch (e) {
-                console.log(e);
-                plasmoid.configuration.noiseComponents = '[]';
+
+            MediaPlayer {
+                id: media_player
+                source: Js.toAudioName(_filename)
+                audioOutput: AudioOutput {
+                    volume: Js.computeVolume(!player_delegate.muted * player_delegate.volume)
+                }
+                loops: MediaPlayer.Infinite
             }
         }
     }
@@ -68,15 +111,15 @@ Item {
     function action_playpause() {
         playing = !playing;
         plasmoid.configuration.playing = playing;
-        Js.setPlayPauseAction();
     }
 
     Component.onCompleted: {
         playing = playing && !plasmoid.configuration.pausedAtStartup;
-        Js.setPlayPauseAction();
     }
 
-    Plasmoid.compactRepresentation: PlasmaCore.IconItem {
+    compactRepresentation: Kirigami.Icon {
+        property PlasmoidItem plasmoidItem
+
         source: plasmoid.icon
         active: mouseArea.containsMouse
 
@@ -87,16 +130,16 @@ Item {
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
 
-            onClicked: {
+            onClicked: function (mouse) {
                 if (mouse.button == Qt.MiddleButton) {
                     action_playpause();
                 } else if (mouse.button == Qt.LeftButton) {
-                    plasmoid.expanded = !plasmoid.expanded;
+                    plasmoidItem.expanded = !plasmoidItem.expanded;
                 }
             }
 
-            onWheel: {
-                var angleStep = 15; // As in most mouse types
+            onWheel: function (wheel) {
+                var angleStep = 45;
                 var volumeDelta = main.volumeStep * Math.round(wheel.angleDelta.y / angleStep);
                 var volume = plasmoid.configuration.globalVolume + volumeDelta;
                 plasmoid.configuration.globalVolume = Math.min(main.maxVolume, Math.max(main.minVolume, volume))
@@ -104,7 +147,7 @@ Item {
         }
     }
 
-    Plasmoid.fullRepresentation: StackView {
+    fullRepresentation: StackView {
         id: stack
         initialItem: ColumnLayout {
             // Global controls
@@ -112,13 +155,14 @@ Item {
 
                 id: globalControls
                 Layout.fillWidth: true
-                spacing: units.smallSpacing
+                spacing: Kirigami.Units.smallSpacing
 
                 // Add new noise component
                 PlasmaComponents.ToolButton {
                     id: addButton
-                    iconName: "list-add"
-                    tooltip: i18n("Add a noise component")
+                    icon.name: "list-add"
+                    ToolTip.text: i18n("Add a noise component")
+                    ToolTip.visible: hovered
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         stack.push("AddNoisePopup.qml");
@@ -128,7 +172,7 @@ Item {
                 // Play/Pause
                 PlasmaComponents.ToolButton {
                     id: playButton
-                    iconName: playing ? "media-playback-pause" : "media-playback-start"
+                    icon.name: playing ? "media-playback-pause" : "media-playback-start"
                     Layout.alignment: Qt.AlignVCenter
                     onClicked: {
                         action_playpause();
@@ -140,8 +184,8 @@ Item {
                     id: globalVolumeSlider
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
-                    maximumValue: main.maxVolume
-                    minimumValue: main.minVolume
+                    from: main.minVolume
+                    to: main.maxVolume
                     stepSize: main.volumeStep
                     value: plasmoid.configuration.globalVolume
                     onValueChanged: {
@@ -167,8 +211,6 @@ Item {
                     model: noiseComponentsModel
 
                     delegate: NoiseListItem {
-                        playing: main.playing
-                        audioSource: Js.toAudioName(_filename)
                         imageSource: Js.toImageName(_filename)
                         noiseName: Js.toPrettyName(_filename)
                         volume: _volume

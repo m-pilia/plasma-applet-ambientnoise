@@ -16,19 +16,23 @@
  * along with Ambient Noise. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
-import QtQuick.Window 2.0
-import Qt.labs.folderlistmodel 1.0
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import Qt.labs.folderlistmodel
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.plasma.plasmoid
+
 import "../js/scripts.js" as Js
 
 ScrollView {
     ListView {
         header: PlasmaComponents.ToolButton {
-            iconName: "draw-arrow-back"
+            icon.name: "draw-arrow-back"
             Layout.alignment: Qt.AlignVCenter
             onClicked: {
                 stack.pop();
@@ -42,28 +46,15 @@ ScrollView {
             showDirs: false
         }
 
-        delegate: PlasmaComponents.ListItem {
-            separatorVisible: true
-
-            RowLayout {
-
-                Image {
-                    source: Js.toImageName(fileName)
-                    fillMode: Image.PreserveAspectFit
-                    Layout.preferredHeight: units.iconSizes.medium
-                    Layout.preferredWidth: units.iconSizes.medium
-                    Layout.alignment: Qt.AlignVCenter
-                }
-
-                PlasmaComponents.Label {
-                    id: fileText
-                    text: Js.toPrettyName(fileName)
-                    Layout.alignment: Qt.AlignVCenter
-                }
-            }
+        delegate: PlasmaExtras.ListItem {
+            width: row_layout.width
+            height: row_layout.height
+            separatorVisible: false
 
             MouseArea {
-                anchors.fill: parent
+                width: childrenRect.width
+                height: childrenRect.height
+                acceptedButtons: Qt.LeftButton
 
                 onClicked: {
                     noiseComponentsModel.append({
@@ -75,6 +66,24 @@ ScrollView {
                         main.action_playpause();
                     }
                     stack.pop();
+                }
+
+                RowLayout {
+                    id: row_layout
+
+                    Image {
+                        source: Js.toImageName(fileName)
+                        fillMode: Image.PreserveAspectFit
+                        Layout.preferredHeight: Kirigami.Units.iconSizes.medium
+                        Layout.preferredWidth: Kirigami.Units.iconSizes.medium
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    PlasmaComponents.Label {
+                        id: fileText
+                        text: Js.toPrettyName(fileName)
+                        Layout.alignment: Qt.AlignVCenter
+                    }
                 }
             }
         }

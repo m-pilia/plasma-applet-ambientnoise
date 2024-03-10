@@ -16,12 +16,12 @@
  * along with Ambient Noise. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+
+import org.kde.plasma.plasmoid
+import org.kde.plasma.components as PlasmaComponents
 
 Item {
     id: settings
@@ -49,8 +49,9 @@ Item {
 
             /* restore default */
             PlasmaComponents.Button {
-                iconName: "edit-undo"
-                tooltip: i18n("Restore default")
+                icon.name: "edit-undo"
+                ToolTip.text: i18n("Restore default")
+                ToolTip.visible: hovered
                 onClicked: {
                     noiseData.text = defaultNoiseDataDirectory
                 }
