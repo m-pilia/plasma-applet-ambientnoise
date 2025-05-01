@@ -27,11 +27,11 @@ jobs:
 
     - name: Install ESLint
       run: |
-        sudo npm install -g eslint
+        npm install -D eslint@9.25.1 @eslint/eslintrc@3.3.1 @eslint/js@9.25.1 globals@16.0.0
 
     - name: Run ESLint
       run: |
-        eslint .
+        npx eslint plasmoid/
 
   Shellcheck:
     name: Shellcheck
