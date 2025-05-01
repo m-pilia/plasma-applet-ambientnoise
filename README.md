@@ -15,9 +15,6 @@ volume, and active noise components. To prevent it from playing sound at
 start-up, even if it was still playing at the time of the last shutdown, go to
 the plasmoid settings and tick "Paused at start-up".
 
-Free noises in a ready-to-use format for this plasmoid can be found in the
-[anoise project](http://anoise.tuxfamily.org/).
-
 # Build and install
 
 The applet can be installed locally with
@@ -41,6 +38,59 @@ To see the plasmoid, you may need to restart plasmashell
 kquitapp6 plasmashell
 kstart plasmashell
 ```
+
+# Add sounds
+
+The plasmoid does not include any sounds by itself as part of the installation,
+users can however add arbitrary sounds to it.
+
+To add sounds to the plasmoid's library, simply copy your favourite noise audio
+files and their corresponding icons to the sound folder (its default location
+is `/usr/share/anoise/sounds` but it can be customized in the settings).
+Supported extensions are `.ogg`, `.flac`, `.mp3`, `.wav`, Use snake case for
+the file names (it will be automatically converted to sentence case in the UI),
+and use the same name (besides different file extension) for each audio file
+and its corresponding icon.
+
+For example, the layout of the sound folder should look like:
+```
+/usr/share/anoise/sounds
+                  |- coffee_shop.ogg
+                  |- coffee_shop.png
+                  |- fire.ogg
+                  |- fire.png
+                  |- forest.ogg
+                  |- forest.png
+```
+
+Free noises in a ready-to-use format for this plasmoid can be found in the
+[anoise project](https://github.com/costales/anoise), which was a source of
+inspiration for this plasmoid.
+
+Arch Linux users can get a collection of user-generated sounds to work
+out-of-the-box by installing the `anoise-community-extension` packages from the
+AUR ([1](https://aur.archlinux.org/packages/anoise-community-extension1),
+[2](https://aur.archlinux.org/packages/anoise-community-extension2),
+[3](https://aur.archlinux.org/packages/anoise-community-extension3),
+[4](https://aur.archlinux.org/packages/anoise-community-extension4),
+[5](https://aur.archlinux.org/packages/anoise-community-extension5)).
+
+# Why are there no sounds bundled with the project?
+
+This project intentionally avoids bundling any sounds, for a few reasons:
+* I prefer to avoid shipping multimedia assets under other people's or project's
+  intellectual property (even under permissive licenses).
+* _De gustibus non est disputandum_. The choice is quintessentially a matter of
+  taste, and no two users will have the same taste. Building a library of
+  sounds that is variegated enough to appeal to most users would be
+  non-trivial, and a large library would consume resources for sounds users
+  might not like or want. Users should not pay for what they not need.
+* I do not want to keep multimedia assets under version control in git, but I
+  currently also want to avoid relying on a third party storage and having to
+  integrate it in the plasmoid's build process.
+
+For these reasons, pull requests trying to add multimedia assets to the project
+will be rejected.
 
 # Contribute
 
